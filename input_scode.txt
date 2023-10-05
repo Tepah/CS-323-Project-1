@@ -1,0 +1,4 @@
+while (t < upper) s = 22.00; // This is a comment
+/* This is also a comment */
+int i = 20;
+
