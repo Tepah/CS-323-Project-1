@@ -1,4 +1,4 @@
-token	Lexeme
+Token	Lexeme
 Keyword	while
 Separator	(
 Identifier	t
@@ -6,11 +6,6 @@ Operator	<
 Identifier	upper
 Separator	)
 Identifier	s
-Separator	=
+Operator	=
 Real	22.00
-Separator	;
-Keyword	int
-Identifier	i
-Separator	=
-Integer	20
 Separator	;

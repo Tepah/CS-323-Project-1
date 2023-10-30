@@ -5,12 +5,11 @@ class Token:
 
 
 def lexer():
-    letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    numbers = '0123456789'
-    symbols = '(){}[]+-*/=,;:'
-    operators = ['+', '-', '*', '/', '=', '>', '<', '>=', '<=', '==', '!=']
-    keywords = ['if', 'else', 'while', 'for', 'int', 'float', 'bool', 'string', 'char', 'void', 'return', 'true',
-                'false']
+    symbols = '(){}[],;:'
+    operators = '+-*/=><'
+    operators_2 = {'>=', '<=', '==', '!='}
+    keywords = {'if', 'else', 'while', 'for', 'int', 'float', 'bool', 'string', 'char', 'void', 'return', 'true',
+                'false'}
     file_name = 'input_scode.txt'
     result = []
 
@@ -23,16 +22,14 @@ def lexer():
                     if comment:
                         if char == '*' and len(word) < 1:
                             word.append(char)
-                        elif char == '/' and len(word) == 1:
+                        elif char == '/' and len(word) == 1 and word[0] == '*':
                             comment = False
                             word = []
                         else:
-                            word = []
-                    if char == '_' and len(word) == 0:
+                            continue
+                    elif char == '_' and len(word) == 0:
                         word.append(char)
-                    elif char in letters:
-                        word.append(char)
-                    elif char in numbers:
+                    elif char.isalnum():
                         word.append(char)
                     elif char == '.':
                         word.append(char)
@@ -40,8 +37,10 @@ def lexer():
                         if char == "/" and len(word) < 1:
                             word.append(char)
                         elif char == '/' and len(word) == 1:
+                            word = []
                             break
                         elif char == '*' and len(word) == 1:
+                            word = []
                             comment = True
                         else:
                             full_word = ''.join(word)
@@ -64,9 +63,13 @@ def lexer():
                             if char in symbols:
                                 print('Separator: ' + char)
                                 result.append(('Separator', char))
-                            elif char in operators:
+                            elif char in operators or char in operators_2:
                                 print('Operator: ' + char)
                                 result.append(('Operator', char))
+                if len(word) > 0:
+                    full_word = ''.join(word)
+                    print('Identifier: ' + full_word)
+                    result.append(('Identifier', full_word))
 
     except FileNotFoundError:
         print(f"File not found: {file_name}")
